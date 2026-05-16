@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Categorías</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Gestión de Categorías</h2>
+
+    <div class="mb-3 text-center">
+        <a th:href="@{/categorias/new}" class="btn btn-success">+ Nueva Categoría</a>
+        <a th:href="@{/listado}" class="btn btn-secondary">Volver al Listado de Trips</a>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-primary">
+            <tr>
+                <th>ID</th>
+                <th>Nombre de la Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="categoria : ${categorias}">
+                <td th:text="${categoria.id}"></td>
+                <td th:text="${categoria.nombre}"></td>
+                <td>
+                    <a th:href="@{/categorias/edit/{id}(id=${categoria.id})}" class="btn btn-warning btn-sm">Editar</a>
+                    <a th:href="@{/categorias/delete/{id}(id=${categoria.id})}" 
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Eliminar esta categoría?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${categorias.isEmpty()}" class="alert alert-info text-center">
+        No hay categorías registradas aún.
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Detalle - ' + ${trip.nombre}">Detalle</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-4">
+
+    <a th:href="@{/listado}" class="btn btn-secondary mb-3">← Volver al Listado</a>
+
+    <div class="card shadow mx-auto" style="max-width: 700px;">
+        <img th:src="${trip.imagen}"
+             class="card-img-top"
+             style="height: 350px; object-fit: cover;"
+             alt="Imagen"
+             onerror="this.src='https://via.placeholder.com/700x350?text=Sin+Imagen'">
+        <div class="card-body">
+            <h2 class="card-title" th:text="${trip.nombre}">Nombre</h2>
+
+            <div class="row text-center my-3">
+                <div class="col-md-4">
+                    <strong>Fecha</strong>
+                    <p th:text="${trip.fecha != null} ? ${#temporals.format(trip.fecha, 'dd/MM/yyyy')} : 'Sin fecha'"></p>
+                </div>
+                <div class="col-md-4">
+                    <strong>Costo</strong>
+                    <p th:text="'$' + ${trip.costo}"></p>
+                </div>
+                <div class="col-md-4">
+                    <strong>Categoría</strong>
+                    <p th:text="${trip.categoria != null} ? ${trip.categoria.nombre} : 'Sin categoría'"></p>
+                </div>
+            </div>
+
+            <h5>¿De qué se trata esta aventura?</h5>
+            <!-- ✅ th:utext respeta formato HTML del texto guardado en BD -->
+            <p th:utext="${trip.detalles}">Detalles</p>
+        </div>
+    </div>
+</div>
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

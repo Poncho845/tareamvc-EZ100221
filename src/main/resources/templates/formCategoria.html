@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Categoría</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 th:text="${categoria.id == null} ? 'Nueva Categoría' : 'Editar Categoría'"></h4>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/categorias/save}" th:object="${categoria}" method="post">
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="mb-3">
+                    <label class="form-label">Nombre de la Categoría</label>
+                    <input type="text" class="form-control" th:field="*{nombre}" required>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a th:href="@{/categorias}" class="btn btn-secondary me-2">Cancelar</a>
+                    <button type="submit" class="btn btn-success">Guardar Categoría</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

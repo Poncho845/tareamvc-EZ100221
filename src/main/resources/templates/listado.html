@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trips El Salvador</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark" style="background-color: #0d6efd;">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bold">Trips El Salvador</span>
+        <a th:href="@{/categorias}" class="btn btn-outline-light btn-sm">Gestionar Categorías</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <!-- Mensaje de éxito -->
+    <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${mensaje}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 th:text="${titulo != null} ? ${titulo} : 'Listado de Trips'">Listado de Trips</h2>
+        <a th:href="@{/trips/new}" class="btn btn-success btn-lg">+ Nuevo Trip</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4" th:each="trip : ${trips}">
+            <div class="card h-100 shadow-sm">
+                <img th:src="${trip.imagen}"
+                     class="card-img-top"
+                     style="height: 200px; object-fit: cover;"
+                     alt="Imagen del trip"
+                     onerror="this.src='https://via.placeholder.com/400x200?text=Sin+Imagen'">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${trip.nombre}">Nombre</h5>
+                    <p class="card-text mb-1">
+                        <strong>Fecha:</strong>
+                        <!-- ✅ FIX: #temporals.format para LocalDate -->
+                        <span th:text="${trip.fecha != null} ? ${#temporals.format(trip.fecha, 'dd/MM/yyyy')} : 'Sin fecha'"></span>
+                    </p>
+                    <p class="card-text mb-1">
+                        <strong>Costo:</strong>
+                        <span th:text="'$' + ${trip.costo}"></span>
+                    </p>
+                    <p class="card-text mb-1">
+                        <strong>Categoría:</strong>
+                        <span th:text="${trip.categoria != null} ? ${trip.categoria.nombre} : 'Sin categoría'"></span>
+                    </p>
+                </div>
+                <div class="card-footer d-flex gap-2">
+                    <a th:href="@{/trips/view/{id}(id=${trip.id})}" class="btn btn-info btn-sm text-white">Ver</a>
+                    <a th:href="@{/trips/edit/{id}(id=${trip.id})}" class="btn btn-warning btn-sm">Editar</a>
+                    <a th:href="@{/trips/delete/{id}(id=${trip.id})}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Estás seguro de eliminar este trip?')">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Si no hay trips -->
+    <div th:if="${#lists.isEmpty(trips)}" class="text-center mt-5">
+        <p class="text-muted fs-5">No hay trips disponibles.</p>
+        <a th:href="@{/trips/new}" class="btn btn-primary">Crear el primero</a>
+    </div>
+
+</div>
+
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
